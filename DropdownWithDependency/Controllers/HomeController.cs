@@ -1,3 +1,4 @@
+using DropdownWithDependency.Enums;
 using DropdownWithDependency.HtmlHelpers;
 using DropdownWithDependency.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,22 @@ namespace DropdownWithDependency.Controllers
 
             return View(configs);
         }
+
+        public IActionResult OrnekEvetHayir()
+        {
+            var model   = new OrnekViewModel
+            {
+                Soru1 = 1,
+                DetaySoru1 = "Test",
+                Soru2 = 1,
+                DetaySoru2 = "Test"
+            };
+
+            return View(model);
+        }
+
+
+
 
         public IActionResult Privacy()
         {

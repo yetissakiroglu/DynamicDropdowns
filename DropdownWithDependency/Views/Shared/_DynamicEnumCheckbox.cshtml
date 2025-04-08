@@ -1,0 +1,63 @@
+﻿@model (string QuestionName, Type EnumType, int? SelectedValue, string TargetDivId, string TriggerValue, string InputIdToMakeRequired)
+
+@{
+    var name = Model.QuestionName;
+    var enumType = Model.EnumType;
+    var values = Enum.GetValues(enumType);
+    var selectedValue = Model.SelectedValue?.ToString() ?? "";
+    var targetDivId = Model.TargetDivId;
+    var triggerValue = Model.TriggerValue;
+    var inputId = Model.InputIdToMakeRequired;
+}
+
+<div class="enum-checkbox-group">
+    @foreach (var val in values)
+    {
+        var intVal = ((int)val).ToString();
+        var label = Enum.GetName(enumType, val);
+        var checkboxId = $"{name}_{intVal}";
+        var isChecked = selectedValue == intVal ? "checked" : "";
+
+        <label for="@checkboxId" style="margin-right:10px;">
+            <input type="checkbox" name="@name" value="@intVal" id="@checkboxId" class="enum-checkbox-@name" @isChecked />
+            @label
+        </label>
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.enum-checkbox-@name');
+        const target = document.getElementById('@targetDivId');
+        const input = document.getElementById('@inputId');
+
+        function updateView() {
+            let actualValue = null;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    actualValue = cb.value;
+                } else {
+                    cb.checked = false;
+                }
+            });
+
+            if (actualValue === '@triggerValue') {
+                target.style.display = 'block';
+                input.setAttribute('required', 'required');
+            } else {
+                target.style.display = 'none';
+                input.removeAttribute('required');
+                input.value = '';
+            }
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function () {
+                checkboxes.forEach(c => { if (c !== cb) c.checked = false; });
+                updateView();
+            });
+        });
+
+        updateView();
+    });
+</script>

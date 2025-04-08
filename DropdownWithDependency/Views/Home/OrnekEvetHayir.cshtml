@@ -1,0 +1,29 @@
+﻿@using DropdownWithDependency.HtmlHelpers  
+@model OrnekViewModel  
+
+<form asp-action="Index" method="post">
+
+    <!-- Soru 1 -->
+    @Html.Partial("_DynamicEnumCheckbox", (
+            "Soru1", typeof(EOnayDurumu), Model.Soru1,
+            "divSoru1", "1", "inputSoru1"
+            ))
+
+    <div id="divSoru1" style="display:none;">
+        <label for="inputSoru1">Soru 1 Ek Alan</label>
+        <input type="text" class="form-control" id="inputSoru1" name="DetaySoru1" value="@Model.DetaySoru1" />
+    </div>
+
+    <!-- Soru 2 -->
+    @Html.Partial("_DynamicEnumCheckbox", (
+            "Soru2", typeof(EOnayDurumu), Model.Soru2,
+            "divSoru2", "1", "inputSoru2"
+            ))
+
+    <div id="divSoru2" style="display:none;">
+        <label for="inputSoru2">Soru 2 Ek Alan</label>
+        <input type="text" class="form-control" id="inputSoru2" name="DetaySoru2" value="@Model.DetaySoru2" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Gönder</button>
+</form>
